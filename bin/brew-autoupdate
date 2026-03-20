@@ -74,9 +74,9 @@ cmd_select() {
   print_header
 
   print_info "Fetching installed packages…"
-  local -a all_formulae all_casks installed_pkgs
-  mapfile -t all_formulae < <(brew list --formula 2>/dev/null)
-  mapfile -t all_casks    < <(brew list --cask   2>/dev/null | sed 's/$/ (cask)/')
+  local -a all_formulae=() all_casks=() installed_pkgs
+  while IFS= read -r line; do [[ -n "$line" ]] && all_formulae+=("$line"); done < <(brew list --formula 2>/dev/null)
+  while IFS= read -r line; do [[ -n "$line" ]] && all_casks+=("$line (cask)"); done < <(brew list --cask 2>/dev/null)
   installed_pkgs=("${all_formulae[@]}" "${all_casks[@]}")
 
   if [[ ${#installed_pkgs[@]} -eq 0 ]]; then

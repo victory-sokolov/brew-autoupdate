@@ -1,14 +1,9 @@
 class BrewAutoupdate < Formula
   desc "Selectively auto-update Homebrew packages using fzf"
-  homepage "https://github.com/yourusername/brew-autoupdate"
-  version "1.0.0"
-
-  # Replace with your actual tarball URL and sha256 after publishing
-  # url "https://github.com/yourusername/brew-autoupdate/archive/refs/tags/v1.0.0.tar.gz"
-  # sha256 "REPLACE_WITH_ACTUAL_SHA256"
-
+  homepage "https://github.com/victory-sokolov/brew-autoupdate"
+  version "0.0.1"
   license "MIT"
-  head "https://github.com/yourusername/brew-autoupdate.git", branch: "main"
+  head "https://github.com/victory-sokolov/brew-autoupdate.git", branch: "main"
 
   depends_on "fzf"
 
