@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-readonly VERSION="1.0.0"
+readonly VERSION="0.1.0"
 readonly CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/brew-autoupdate"
 readonly CONFIG_FILE="$CONFIG_DIR/packages.conf"
 readonly LOG_FILE="$CONFIG_DIR/autoupdate.log"
@@ -12,14 +12,14 @@ readonly PLIST_LABEL="com.brew-autoupdate.daemon"
 readonly PLIST_PATH="$HOME/Library/LaunchAgents/${PLIST_LABEL}.plist"
 
 # ── Colors ────────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-RESET='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[0;33m'
+BLUE=$'\033[0;34m'
+CYAN=$'\033[0;36m'
+BOLD=$'\033[1m'
+DIM=$'\033[2m'
+RESET=$'\033[0m'
 
 print_header() {
   echo -e "\n${BOLD}${CYAN}🍺 brew-autoupdate v${VERSION}${RESET}\n"
