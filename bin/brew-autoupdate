@@ -89,26 +89,15 @@ cmd_select() {
   local current_pinned
   current_pinned=$(read_pinned)
 
-  # Build fzf pre-selection: mark already-pinned packages
+  # Build fzf input
   local fzf_input=""
   for pkg in "${installed_pkgs[@]}"; do
-    local base_name="${pkg% (cask)}"
-    if echo "$current_pinned" | grep -qx "$base_name"; then
-      fzf_input+="${pkg}"$'\n'
-    else
-      fzf_input+="${pkg}"$'\n'
-    fi
+    fzf_input+="${pkg}"$'\n'
   done
 
   echo -e "${DIM}  TAB to select/deselect  ·  ENTER to confirm  ·  ESC to cancel${RESET}\n"
 
-  # Pre-select previously pinned
-  local preselect_args=()
-  while IFS= read -r pkg; do
-    [[ -n "$pkg" ]] && preselect_args+=(--bind "start:+select($pkg)")
-  done <<< "$current_pinned"
-
-  # Use temp file to ensure fzf can access TTY for interactive display
+  # Use temp file for fzf input
   local tmp_input
   tmp_input=$(mktemp)
   echo "$fzf_input" > "$tmp_input"
@@ -128,9 +117,8 @@ cmd_select() {
     --bind "ctrl-a:select-all" \
     --bind "ctrl-d:deselect-all" \
     --bind "ctrl-t:toggle-all" \
-    $( [[ -n "$current_pinned" ]] && echo "--bind" && printf "start:$(echo "$current_pinned" | head -1 | xargs -I{} echo 'select({})')" ) \
     < "$tmp_input" \
-    2>/dev/null || true)
+    || true)
 
   rm -f "$tmp_input"
 
