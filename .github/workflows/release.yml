@@ -13,11 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install bats
-        run: npm install -g bats
-
       - name: Run tests
-        run: bats test/preselect.bats
+        run: npx bats test/preselect.bats
 
   release:
     needs: test
