@@ -133,6 +133,16 @@ cmd_select() {
     fzf_input+="${pkg}"$'\n'
   done
 
+  # Build pre-selection bind for existing pinned packages
+  local preselect_bind=""
+  if [[ -n "$current_pinned" ]]; then
+    local -a select_actions=()
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && select_actions+=("search(^${pkg}\$)+select")
+    done <<< "$current_pinned"
+    (( ${#select_actions[@]} > 0 )) && preselect_bind="--bind \"load:${select_actions[*]}+search()\""
+  fi
+
   echo -e "${DIM}  TAB to select/deselect  ·  ENTER to confirm  ·  ESC to cancel${RESET}\n"
 
   # Use temp file for fzf input
@@ -155,6 +165,7 @@ cmd_select() {
     --bind "ctrl-a:select-all" \
     --bind "ctrl-d:deselect-all" \
     --bind "ctrl-t:toggle-all" \
+    $preselect_bind \
     < "$tmp_input" \
     || true)
 
